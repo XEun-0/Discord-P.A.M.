@@ -38,10 +38,11 @@ class Lily(commands.Cog):
             repo.git.commit('-m', 'c7', author=oe_token)
             origin = repo.remote(name='origin')
             origin.push()
+            await ctx.send('UPDATED: {}'.format(repo.active_branch))
         except git.GitCommandError as exc:
             await ctx.send("UP-TO-DATE")
 
-        await ctx.send(repo.active_branch)
+
 
 def setup(bot: commands.Bot):
     logging.info('>>> Setting up [ lily ] ')
