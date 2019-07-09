@@ -38,8 +38,7 @@ class Plans(commands.Cog):
                  "Time:",
                  "Description:",
                  "Going Emoji:",
-                 "Not Going Emoji",
-                 "Maybe Emoji"
+                 "Not Going Emoji"
                  ]
 
         if message is not None:
@@ -78,6 +77,7 @@ class Plans(commands.Cog):
     async def _add_goingnotgoing_reaction(self, message):
         await message.add_reaction('\U0001f44d')
         await message.add_reaction('\U0001F346')
+        #await message.add_reaction('\U0001F41E')
 
     def _makeplan(self,
                   message,
@@ -132,6 +132,7 @@ class Plans(commands.Cog):
         tauthor = ctx.guild
         temojis = tauthor.emojis
         logging.info(temojis)
+        #await ctx.send(emoji)
         await ctx.send(type(tauthor))
 
 def setup(bot: commands.Bot):
