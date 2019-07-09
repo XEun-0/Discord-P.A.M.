@@ -1,0 +1,9 @@
+auth.json
+plan_log.json
+owner_info.json
+exts/words.json
+__pycache__/
+*.py[cod]
+open-file-here.bat
+.idea/
+venv/
