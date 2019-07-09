@@ -42,8 +42,6 @@ class Lily(commands.Cog):
         except git.GitCommandError as exc:
             await ctx.send("UP-TO-DATE")
 
-
-
 def setup(bot: commands.Bot):
     logging.info('>>> Setting up [ lily ] ')
     bot.add_cog(Lily(bot))

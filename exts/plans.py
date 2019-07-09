@@ -69,10 +69,10 @@ class Plans(commands.Cog):
                       ctx: commands.Context,
                       search_id: typing.Optional[int],
                       *,
-                      message=None
+                      key=None
                       ):
         if search_id:
-            await ctx.send("```{}```".format(search_id))
+            await ctx.send("```{} {}```".format(search_id, key))
 
     # Plans command utility
     async def _add_goingnotgoing_reaction(self, message):
