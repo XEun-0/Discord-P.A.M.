@@ -28,7 +28,7 @@ class Lily(commands.Cog):
     #
     #     logging.info(type(repo))
 
-    @commands.command()
+    @commands.command(aliases=['gitpush'])
     @commands.is_owner()
     async def git_push(self, ctx: commands.Context):
         oe_token = json.load(open(AUTH_INFO, 'r'))[AUTH_EMAIL]
