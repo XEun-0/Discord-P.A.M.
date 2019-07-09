@@ -1,9 +1,7 @@
-import discord
 from discord.ext import commands
-from git import Repo
 import git
 
-import os, random, re, typing, traceback, logging, random, json
+import logging, json
 
 PATH_OF_GIT_REPO = r'.git'
 AUTH_INFO = 'owner_info.json'
