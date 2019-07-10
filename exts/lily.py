@@ -41,6 +41,7 @@ class Lily(commands.Cog):
         except git.GitCommandError as exc:
             await ctx.send('```[ Lily ]: UP-TO-DATE```')
 
+    #WORK IN PROGRESS
     @commands.command(aliases=['gitpull'])
     @commands.is_owner()
     async def git_pull(self, ctx: commands.Context):
