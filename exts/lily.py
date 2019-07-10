@@ -47,6 +47,9 @@ class Lily(commands.Cog):
         await ctx.send("WIP")
         repo = git.Repo(PATH_OF_GIT_REPO)
         r_tags = repo.tags
+        fetch_info = repo.remotes.origin.fetch('master:master')
+        for info in fetch_info:
+            logging.info('{} {} {}'.format(info.ref, info.old_commit, info.flags))
         await ctx.send(r_tags)
 
 def setup(bot: commands.Bot):
