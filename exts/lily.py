@@ -41,6 +41,14 @@ class Lily(commands.Cog):
         except git.GitCommandError as exc:
             await ctx.send('```[ Lily ]: UP-TO-DATE```')
 
+    @commands.command(aliases=['gitpull'])
+    @commands.is_owner()
+    async def git_pull(self, ctx: commands.Context):
+        await ctx.send("WIP")
+        repo = git.Repo(PATH_OF_GIT_REPO)
+        r_tags = repo.tags
+        await ctx.send(r_tags)
+
 def setup(bot: commands.Bot):
     logging.info('>>> Setting up [ lily ] ')
     bot.add_cog(Lily(bot))
