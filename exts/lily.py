@@ -30,15 +30,16 @@ class Lily(commands.Cog):
     @commands.is_owner()
     async def git_push(self, ctx: commands.Context):
         oe_token = json.load(open(AUTH_INFO, 'r'))[AUTH_EMAIL]
+        await ctx.send("[ Lily ]: Checking git repo...")
         try:
             repo = git.Repo(PATH_OF_GIT_REPO)
             repo.git.add(update=True)
             repo.git.commit('-m', 'c7', author=oe_token)
             origin = repo.remote(name='origin')
             origin.push()
-            await ctx.send('UPDATED: {}'.format(repo.active_branch))
+            await ctx.send('[ Lily ]: UPDATED: {}'.format(repo.active_branch))
         except git.GitCommandError as exc:
-            await ctx.send("UP-TO-DATE")
+            await ctx.send('[ Lily ]: UP-TO-DATE')
 
 def setup(bot: commands.Bot):
     logging.info('>>> Setting up [ lily ] ')
