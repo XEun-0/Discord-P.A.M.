@@ -30,7 +30,7 @@ class Lily(commands.Cog):
     @commands.is_owner()
     async def git_push(self, ctx: commands.Context):
         oe_token = json.load(open(AUTH_INFO, 'r'))[AUTH_EMAIL]
-        await ctx.send("```css [ Lily ]: Checking git repo...```")
+        await ctx.send("```[ Lily ]: Checking git repo...```")
         try:
             repo = git.Repo(PATH_OF_GIT_REPO)
             repo.git.add(update=True)
