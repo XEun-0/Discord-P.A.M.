@@ -1,9 +1,11 @@
 import discord
 from discord.ext import commands
 
+from PIL import Image, ImageDraw, ImageFont
+from exts.pammod_2 import PAMText as PT
 import os, random, re, typing, traceback, logging, random, json
 
-# Constants
+
 PLAN_LOG = 'plan_log.json'
 
 class Plans(commands.Cog):
@@ -16,6 +18,7 @@ class Plans(commands.Cog):
         self._def_regex = re.compile(r'<@!?(\d+)>|<@&(\d+)>|<#(\d+)>')
         self._plans_count = 0
         self._plans = self._plans_log_exists()
+        #self._pamth = pm2.PAMText()
 
         # bot_token = json.load(open(AUTH_FILE, 'r'))[AUTH_FIELD]
 
@@ -134,6 +137,60 @@ class Plans(commands.Cog):
         logging.info(temojis)
         #await ctx.send(emoji)
         await ctx.send(type(tauthor))
+
+    def text_wrap(self, text, font, max_width):
+        lines = []
+        if font.getsize(text)[0] <= max_width:
+            lines.append(text)
+        else:
+            words = text.split(' ')
+            i = 0
+            while i < len(words):
+                line = ''
+                while i < len(words) and font.getsize(line + words[i])[0] <= max_width:
+                    line = line + words[i] + " "
+                    i += 1
+                if not line:
+                    line = words[i]
+                    i += 1
+                lines.append(line)
+        return lines
+
+    #Testing
+    @commands.command(name="ie")
+    @commands.is_owner()
+    async def runimgedit(self, ctx: commands.Context, *, message=None):
+        self._generate_plan_template()
+        if message is not None:
+            self._test_picture_edit(message)
+        channel = ctx.channel
+        await channel.send(content="", file=discord.File(self._res_path + 'pam/plan1.png'))
+
+    def _test_picture_edit(self, msg):
+        print("called")
+        image = Image.open(self._res_path + 'pam/bg.png')
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.truetype(self._res_path + 'pam/fonts/Roboto-Black.ttf', size=35)
+        (x, y) = (10, 0)
+        message = "Here's the plan.."
+        color = 'rgb(0, 0, 0)'  # black color
+
+        # draw the message on the background
+        draw.text((x, y), message, fill=color, font=font)
+        (x, y) = (10, 37)
+        #name = 'hello'
+        name = self.text_wrap(msg, font, 900)
+        #name = msg
+        #color = 'rgb(255, 255, 255)'  # white color
+        draw.text((x, y), name, fill=color, font=font)
+
+        # save the edited image
+
+        image.save(self._res_path + 'pam/plan1.png')
+
+    def _generate_plan_template(self):
+        pass
+
 
 def setup(bot: commands.Bot):
     logging.info('>>> Setting up [ plans ] ')

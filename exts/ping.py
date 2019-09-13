@@ -65,6 +65,10 @@ class Ping(commands.Cog):
 
     @commands.command()
     async def chop(self, message: discord.Message):
+
+        print(message)
+        print(type(message))
+
         channel = message.channel
         await channel.send(content="chop", file=discord.File(self._res_path + '/ramiris_chop.png'))
         logging.info('>>> [ Chop ] Complete.')
