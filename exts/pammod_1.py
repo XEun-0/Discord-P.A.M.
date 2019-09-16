@@ -5,8 +5,8 @@ from PIL import Image, ImageDraw, ImageFont
 from exts.pammod_2 import PAMText as PT
 import os, random, re, typing, traceback, logging, random, json
 
-
 PLAN_LOG = 'plan_log.json'
+
 
 class Plans(commands.Cog):
 
@@ -18,7 +18,7 @@ class Plans(commands.Cog):
         self._def_regex = re.compile(r'<@!?(\d+)>|<@&(\d+)>|<#(\d+)>')
         self._plans_count = 0
         self._plans = self._plans_log_exists()
-        #self._pamth = pm2.PAMText()
+        # self._pamth = pm2.PAMText()
 
         # bot_token = json.load(open(AUTH_FILE, 'r'))[AUTH_FIELD]
 
@@ -80,7 +80,7 @@ class Plans(commands.Cog):
     async def _add_goingnotgoing_reaction(self, message):
         await message.add_reaction('\U0001f44d')
         await message.add_reaction('\U0001F346')
-        #await message.add_reaction('\U0001F41E')
+        # await message.add_reaction('\U0001F41E')
 
     def _makeplan(self,
                   message,
@@ -135,7 +135,7 @@ class Plans(commands.Cog):
         tauthor = ctx.guild
         temojis = tauthor.emojis
         logging.info(temojis)
-        #await ctx.send(emoji)
+        # await ctx.send(emoji)
         await ctx.send(type(tauthor))
 
     def text_wrap(self, text, font, max_width):
@@ -156,7 +156,7 @@ class Plans(commands.Cog):
                 lines.append(line)
         return lines
 
-    #Testing
+    # Testing
     @commands.command(name="ie")
     @commands.is_owner()
     async def runimgedit(self, ctx: commands.Context, *, message=None):
@@ -178,10 +178,10 @@ class Plans(commands.Cog):
         # draw the message on the background
         draw.text((x, y), message, fill=color, font=font)
         (x, y) = (10, 37)
-        #name = 'hello'
-        name = self.text_wrap(msg, font, 900)
-        #name = msg
-        #color = 'rgb(255, 255, 255)'  # white color
+        # name = 'hello'
+        # name = self.text_wrap(msg, font, 900)
+        name = msg
+        # color = 'rgb(255, 255, 255)'  # white color
         draw.text((x, y), name, fill=color, font=font)
 
         # save the edited image
