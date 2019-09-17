@@ -2,6 +2,7 @@ auth.json
 plan_log.json
 owner_info.json
 exts/words.json
+prevrend/
 __pycache__/
 *.py[cod]
 open-file-here.bat
