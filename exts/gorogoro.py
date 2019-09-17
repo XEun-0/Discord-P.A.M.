@@ -1,12 +1,12 @@
 import discord
 from discord.ext import commands
 
-from lxml import html
+#from lxml import html
 
-import requests as req
-import urllib.request
-import time
-from bs4 import BeautifulSoup
+#import requests as req
+#import urllib.request
+#import time
+#from bs4 import BeautifulSoup
 
 import os, random, re, typing, traceback, logging, random
 
