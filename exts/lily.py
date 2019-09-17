@@ -46,12 +46,12 @@ class Lily(commands.Cog):
     @commands.is_owner()
     async def git_pull(self, ctx: commands.Context):
         await ctx.send("WIP")
-        repo = git.Repo(PATH_OF_GIT_REPO)
-        r_tags = repo.tags
-        fetch_info = repo.remotes.origin.fetch('master:master')
-        for info in fetch_info:
-            logging.info('{} {} {}'.format(info.ref, info.old_commit, info.flags))
-        await ctx.send(r_tags)
+        #repo = git.Repo(PATH_OF_GIT_REPO)
+        #r_tags = repo.tags
+        #fetch_info = repo.remotes.origin.fetch('master:master')
+        #for info in fetch_info:
+        #    logging.info('{} {} {}'.format(info.ref, info.old_commit, info.flags))
+        #await ctx.send(r_tags)
 
 def setup(bot: commands.Bot):
     logging.info('>>> Setting up [ lily ] ')

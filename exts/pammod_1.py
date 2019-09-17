@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 
 from PIL import Image, ImageDraw, ImageFont
-from exts.pammod_2 import PAMText as PT
 import os, random, re, typing, traceback, logging, random, json
 
 PLAN_LOG = 'plan_log.json'
@@ -18,7 +17,6 @@ class Plans(commands.Cog):
         self._def_regex = re.compile(r'<@!?(\d+)>|<@&(\d+)>|<#(\d+)>')
         self._plans_count = 0
         self._plans = self._plans_log_exists()
-        # self._pamth = pm2.PAMText()
 
         # bot_token = json.load(open(AUTH_FILE, 'r'))[AUTH_FIELD]
 
@@ -190,6 +188,18 @@ class Plans(commands.Cog):
 
     def _generate_plan_template(self):
         pass
+
+    #further testing
+    @commands.command(aliases=['pl2'])
+    async def plans_2(self, ctx: commands.Context, message: typing.Optional[discord.Message] = None):
+        await ctx.send(discord.__version__)
+        #msg = await self._bot.wait_for_message(author=message.author)
+
+    #Listeners
+    @commands.Cog.listener()
+    async def on_message(self, message: discord.Message):
+        pass
+
 
 
 def setup(bot: commands.Bot):
