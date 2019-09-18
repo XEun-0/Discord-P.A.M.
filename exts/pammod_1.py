@@ -81,34 +81,34 @@ class Plans(commands.Cog):
             return m.content is not None and m.channel is 556930111270682624 or self._PLANS_CHANNEL
 
         try:
-            varm = await ctx.send(
+            title_varm: discord.Message = await ctx.send(
                 "[20 Seconds] Enter in Title of Event(If it has not been decided, type in \"idk\"):")
             title = await self._bot.wait_for('message', timeout=20.0, check=check)
-            await varm.delete()
+            await title_varm.delete()
             await title.delete()
 
-            varm = await ctx.send(
+            date_varm: discord.Message = await ctx.send(
                 "[20 Seconds] Enter in Date of Event (If it has not been decided, type in \"idk\"):")
             date = await self._bot.wait_for('message', timeout=20.0, check=check)
-            await varm.delete()
+            await date_varm.delete()
             await date.delete()
 
-            varm = await ctx.send(
+            desc_varm: discord.Message = await ctx.send(
                 "[20 Seconds] Enter in Description of Event (If it has not been decided, type in \"idk\"):")
             desc = await self._bot.wait_for('message', timeout=20.0, check=check)
-            await varm.delete()
+            await desc_varm.delete()
             await desc.delete()
 
-            varm = await ctx.send(
+            time_varm: discord.Message = await ctx.send(
                 "[20 Seconds] Enter in Time of Event (If it has not been decided, type in \"idk\"):")
             time = await self._bot.wait_for('message', timeout=20.0, check=check)
-            await varm.delete()
+            await time_varm.delete()
             await time.delete()
 
-            varm = await ctx.send(
+            loc_varm: discord.Message = await ctx.send(
                 "[20 Seconds] Enter in Location of Event (If it has not been decided, type in \"idk\"):")
             loc = await self._bot.wait_for('message', timeout=20.0, check=check)
-            await varm.delete()
+            await loc_varm.delete()
             await loc.delete()
 
             # double check
@@ -119,7 +119,7 @@ class Plans(commands.Cog):
                            "The Location you chose is: \" {.content} \", \n"
                            "is that correct? (Y/N)".format(title, date, desc, time, loc))
             # Don't make P.A.M. sad :c
-            _ans = await self._bot.wait_for('message', check=check)
+            _ans: discord.Message = await self._bot.wait_for('message', check=check)
             if _ans.content.startswith('N'):
                 raise NameError
         except NameError:
@@ -149,6 +149,9 @@ class Plans(commands.Cog):
                 nlist.append(message.content)
 
         return nlist
+    @commands.command()
+    async def ctxandmsg(self, ctx: commands.Context, message: discord.Message):
+        await ctx.send(type(message))
 
 def setup(bot: commands.Bot):
     logging.info('>>> Setting up [ P.A.M. ] ')
