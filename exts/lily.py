@@ -40,6 +40,7 @@ class Lily(commands.Cog):
             await ctx.send('```[ Lily ]: UPDATED: {}```'.format(repo.active_branch))
         except git.GitCommandError as exc:
             await ctx.send('```[ Lily ]: UP-TO-DATE```')
+        logging.info('[ LILY ]: Fin')
 
     #WORK IN PROGRESS
     @commands.command(aliases=['gitpull'])
