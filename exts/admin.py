@@ -12,7 +12,7 @@ class Admin(commands.Cog):
             'exts.uptime',
             'exts.ping',
             'exts.gorogoro',
-            'exts.pammod_1',
+            'exts.pam',
             'exts.lily'
         ]
 
