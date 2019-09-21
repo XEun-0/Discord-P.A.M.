@@ -3,8 +3,10 @@ import asyncio
 import discord
 from discord.ext import commands
 
+from exts.pammod_2 import PAMsErrors, PAM_Disappointed, PAM_WrongAnswer
 from PIL import Image, ImageDraw, ImageFont
 import os, random, re, typing, traceback, logging, random, json
+
 
 class Plans(commands.Cog):
 
@@ -15,7 +17,9 @@ class Plans(commands.Cog):
         self._progmember = ""
         self._def_regex = re.compile(r'<@!?(\d+)>|<@&(\d+)>|<#(\d+)>')
         self._PLANS_CHANNEL = 592103673920749594
+        self._BOT_CHANNEL = 556930111270682624
         self._attr_list = []
+        self._plans_running = False
 
         # bot_token = json.load(open(AUTH_FILE, 'r'))[AUTH_FIELD]
 
@@ -72,73 +76,88 @@ class Plans(commands.Cog):
     def _generate_plan_template(self):
         pass
 
-    #further testing
     @commands.command(aliases=['pl'])
     async def plans(self, ctx: commands.Context):
-        await ctx.send("Begin P.A.M. Protocol")
+        if not self._plans_running:
+            self._plans_running = True
+            await ctx.send("Begin P.A.M. Protocol")
 
-        def check(m):
-            return m.content is not None and m.channel is 556930111270682624 or self._PLANS_CHANNEL
+            def check(m: discord.Message):
+                #print(ctx.author is m.author)
+                return (m.content is not None) and \
+                       (m.channel.id == self._BOT_CHANNEL or m.channel.id == self._PLANS_CHANNEL) and \
+                       (m.author is ctx.author)
+            try:
+                title_varm: discord.Message = await ctx.send(
+                    "[20 Seconds] Enter in Title of Event(If it has not been decided, type in \"idk\"):")
+                title: discord.Message = await self._bot.wait_for('message', timeout=20.0, check=check)
+                await title_varm.delete()
+                await title.delete()
 
-        try:
-            title_varm: discord.Message = await ctx.send(
-                "[20 Seconds] Enter in Title of Event(If it has not been decided, type in \"idk\"):")
-            title = await self._bot.wait_for('message', timeout=20.0, check=check)
-            await title_varm.delete()
-            await title.delete()
+                date_varm: discord.Message = await ctx.send(
+                    "[20 Seconds] Enter in Date of Event (If it has not been decided, type in \"idk\"):")
+                date: discord.Message = await self._bot.wait_for('message', timeout=20.0, check=check)
+                await date_varm.delete()
+                await date.delete()
 
-            date_varm: discord.Message = await ctx.send(
-                "[20 Seconds] Enter in Date of Event (If it has not been decided, type in \"idk\"):")
-            date = await self._bot.wait_for('message', timeout=20.0, check=check)
-            await date_varm.delete()
-            await date.delete()
+                desc_varm: discord.Message = await ctx.send(
+                    "[20 Seconds] Enter in Description of Event (If it has not been decided, type in \"idk\"):")
+                desc: discord.Message = await self._bot.wait_for('message', timeout=20.0, check=check)
+                await desc_varm.delete()
+                await desc.delete()
 
-            desc_varm: discord.Message = await ctx.send(
-                "[20 Seconds] Enter in Description of Event (If it has not been decided, type in \"idk\"):")
-            desc = await self._bot.wait_for('message', timeout=20.0, check=check)
-            await desc_varm.delete()
-            await desc.delete()
+                time_varm: discord.Message = await ctx.send(
+                    "[20 Seconds] Enter in Time of Event (If it has not been decided, type in \"idk\"):")
+                time: discord.Message = await self._bot.wait_for('message', timeout=20.0, check=check)
+                await time_varm.delete()
+                await time.delete()
 
-            time_varm: discord.Message = await ctx.send(
-                "[20 Seconds] Enter in Time of Event (If it has not been decided, type in \"idk\"):")
-            time = await self._bot.wait_for('message', timeout=20.0, check=check)
-            await time_varm.delete()
-            await time.delete()
+                loc_varm: discord.Message = await ctx.send(
+                    "[20 Seconds] Enter in Location of Event (If it has not been decided, type in \"idk\"):")
+                loc: discord.Message = await self._bot.wait_for('message', timeout=20.0, check=check)
+                await loc_varm.delete()
+                await loc.delete()
 
-            loc_varm: discord.Message = await ctx.send(
-                "[20 Seconds] Enter in Location of Event (If it has not been decided, type in \"idk\"):")
-            loc = await self._bot.wait_for('message', timeout=20.0, check=check)
-            await loc_varm.delete()
-            await loc.delete()
+                # double check
+                await ctx.send("The Title you chose is: \" {.content} \", \n"
+                               "The Date you chose is: \" {.content} \", \n"
+                               "The Description you chose is: \" {.content} \", \n"
+                               "The Time you chose is: \" {.content} \", \n"
+                               "The Location you chose is: \" {.content} \", \n"
+                               "is that correct? (Y/N)".format(title, date, desc, time, loc))
+                # Don't make P.A.M. sad :c
+                _ans: discord.Message = await self._bot.wait_for('message', check=check)
+                if _ans.content.lower() is 'n':
+                    raise PAM_Disappointed
+                elif _ans.content.lower() != 'y':
+                    raise PAM_WrongAnswer
+            except PAM_WrongAnswer:  # lazy programming part 1
+                self._plans_running = False
+                await ctx.send(
+                    'P.A.M. asked for a yes or no and you gave her \"{}\".. what\'s wrong with you?'.format(_ans.content))
+                await ctx.send('P.A.M. went to sleep..')
+            except PAM_Disappointed:  # lazy programming part 2
+                self._plans_running = False
+                await ctx.send(
+                    'P.A.M. says you are not satisfied with her performance.. She went to sleep..')
+            except asyncio.TimeoutError:
+                self._plans_running = False
+                await ctx.send('P.A.M. went to sleep..')
+            else:
+                self._plans_running = False
+                self._attr_list.append(title)
+                self._attr_list.append(date)
+                self._attr_list.append(desc)
+                self._attr_list.append(time)
+                self._attr_list.append(loc)
 
-            # double check
-            await ctx.send("The Title you chose is: \" {.content} \", \n"
-                           "The Date you chose is: \" {.content} \", \n"
-                           "The Description you chose is: \" {.content} \", \n"
-                           "The Time you chose is: \" {.content} \", \n"
-                           "The Location you chose is: \" {.content} \", \n"
-                           "is that correct? (Y/N)".format(title, date, desc, time, loc))
-            # Don't make P.A.M. sad :c
-            _ans: discord.Message = await self._bot.wait_for('message', check=check)
-            if _ans.content.startswith('N'):
-                raise NameError
-        except NameError:
-            await ctx.send(
-                "P.A.M. says you are not satisfied with her performance.. She went to sleep..")
-        except asyncio.TimeoutError:
-            await ctx.send("P.A.M. went to sleep..")
+                self._attr_list = self.cleanup_event(self._attr_list)
+
+                print(self._attr_list)
+
+                await ctx.send("P.A.M. is now finishing things up..")
         else:
-            self._attr_list.append(title)
-            self._attr_list.append(date)
-            self._attr_list.append(desc)
-            self._attr_list.append(time)
-            self._attr_list.append(loc)
-
-            self._attr_list = self.cleanup_event(self._attr_list)
-
-            print(self._attr_list)
-
-            await ctx.send("P.A.M. is now finishing things up..")
+            pass
 
     def cleanup_event(self, list):
         nlist = []
@@ -149,9 +168,11 @@ class Plans(commands.Cog):
                 nlist.append(message.content)
 
         return nlist
+
     @commands.command()
     async def ctxandmsg(self, ctx: commands.Context, message: discord.Message):
         await ctx.send(type(message))
+
 
 def setup(bot: commands.Bot):
     logging.info('>>> Setting up [ P.A.M. ] ')
