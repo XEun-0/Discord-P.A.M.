@@ -1,1 +1,1 @@
-# TesterBot
+# Discord-P.A.M.
