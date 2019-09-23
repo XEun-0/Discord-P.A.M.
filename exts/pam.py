@@ -83,7 +83,6 @@ class Plans(commands.Cog):
             await ctx.send("Begin P.A.M. Protocol")
 
             def check(m: discord.Message):
-                #print(ctx.author is m.author)
                 return (m.content is not None) and \
                        (m.channel.id == self._BOT_CHANNEL or m.channel.id == self._PLANS_CHANNEL) and \
                        (m.author is ctx.author)
