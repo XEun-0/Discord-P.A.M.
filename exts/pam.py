@@ -3,7 +3,7 @@ import asyncio
 import discord
 from discord.ext import commands
 
-from exts.pammod_2 import PAMsErrors, PAM_Disappointed, PAM_WrongAnswer
+from exts.pam_err import PAMsErrors, PAM_Disappointed, PAM_WrongAnswer
 from PIL import Image, ImageDraw, ImageFont
 import os, random, re, typing, traceback, logging, random, json
 
