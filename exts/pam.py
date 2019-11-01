@@ -168,11 +168,6 @@ class Plans(commands.Cog):
 
         return nlist
 
-    @commands.command()
-    async def ctxandmsg(self, ctx: commands.Context, message: discord.Message):
-        await ctx.send(type(message))
-
-
 def setup(bot: commands.Bot):
     logging.info('>>> Setting up [ P.A.M. ] ')
     bot.add_cog(Plans(bot))
