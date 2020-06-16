@@ -21,9 +21,11 @@ bot = commands.Bot(command_prefix=COMMAND_PREFIX, description=BOT_DESCRIPTION)
 logging.getLogger().setLevel(logging.INFO)
 logging.basicConfig(stream=sys.stdout)
 
+
 @bot.event
 async def on_ready():
     logging.info('Bot is ready')
+
 
 @bot.event
 async def on_command_error(ctx: commands.Context, error: discord.DiscordException):
@@ -33,12 +35,14 @@ async def on_command_error(ctx: commands.Context, error: discord.DiscordExceptio
     # Propogate error
     raise error
 
+
 def __main__():
     bot_token = json.load(open(AUTH_FILE, 'r'))[AUTH_FIELD]
     if load_extension(EXTENSION_ADMIN):
         bot.run(bot_token)
     else:
         print('Failed to load admin extension')
+
 
 def load_extension(extension_name: str):
     try:
@@ -48,6 +52,6 @@ def load_extension(extension_name: str):
         return False
     return True
 
+
 if __name__ == '__main__':
     __main__()
-

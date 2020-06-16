@@ -126,7 +126,7 @@ class Plans(commands.Cog):
                                "is that correct? (Y/N)".format(title, date, desc, time, loc))
                 # Don't make P.A.M. sad :c
                 _ans: discord.Message = await self._bot.wait_for('message', check=check)
-                if _ans.content.lower() is 'n':
+                if _ans.content.lower() == 'n':
                     raise PAM_Disappointed
                 elif _ans.content.lower() != 'y':
                     raise PAM_WrongAnswer
@@ -154,7 +154,7 @@ class Plans(commands.Cog):
 
                 print(self._attr_list)
 
-                await ctx.send("P.A.M. is now finishing things up..")
+                await ctx.send("P.A.M. is now finishing things up.. [End of process.. for now..]")
         else:
             pass
 
